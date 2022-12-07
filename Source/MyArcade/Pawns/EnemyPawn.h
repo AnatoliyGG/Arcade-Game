@@ -49,6 +49,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shooting")
 	UHealthComponent* HealthCompoonent;
 
-	UPROPERTY(BlueprintAssignable, Category = "Healts")
-	FEPawnDamagedEvent PawnDamaged;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pawn")
+	int DestroyPoints;
 };

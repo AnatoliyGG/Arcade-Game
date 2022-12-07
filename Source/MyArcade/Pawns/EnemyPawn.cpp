@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/DamageType.h"
 #include "Components/StaticMeshComponent.h"
+#include "MyArcade/MyArcadeGameModeBase.h"
 
 // Sets default values
 AEnemyPawn::AEnemyPawn()
@@ -37,6 +38,9 @@ void AEnemyPawn::BeginPlay()
 
 void AEnemyPawn::DestroyPawn()   
 {
+	AMyArcadeGameModeBase* GameMode = Cast<AMyArcadeGameModeBase>(UGameplayStatics::GetGameMode(this));
+	if (GameMode) GameMode->AddPoints(DestroyPoints);
+
 	Destroy();
 }
 

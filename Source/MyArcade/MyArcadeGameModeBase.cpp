@@ -52,3 +52,8 @@ void AMyArcadeGameModeBase::EndGame()
 
 	UE_LOG(LogTemp, Log, TEXT("Game Over"));
 }
+
+void AMyArcadeGameModeBase::AddPoints(int Points)
+{
+	GamePoints += Points;
+}
