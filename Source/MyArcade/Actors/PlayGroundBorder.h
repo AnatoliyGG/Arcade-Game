@@ -15,6 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	APlayGroundBorder();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UBoxComponent* Trigger;
 
 	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
