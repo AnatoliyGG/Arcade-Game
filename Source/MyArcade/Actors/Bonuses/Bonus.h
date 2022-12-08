@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Bonus.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable)
 class MYARCADE_API ABonus : public AActor
 {
 	GENERATED_BODY()
@@ -19,8 +19,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
+public:	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shooting")
+	class USphereComponent* Collision;
 };
