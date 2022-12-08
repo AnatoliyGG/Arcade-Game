@@ -51,6 +51,8 @@ void AMyArcadeGameModeBase::EndGame()
 	UGameplayStatics::GetPlayerPawn(this, 0)->Destroy();
 
 	UE_LOG(LogTemp, Log, TEXT("Game Over"));
+
+	SetPause(UGameplayStatics::GetPlayerController(this, 0), false);
 }
 
 void AMyArcadeGameModeBase::AddPoints(int Points)
