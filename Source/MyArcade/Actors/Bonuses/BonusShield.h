@@ -6,6 +6,8 @@
 #include "Bonus.h"
 #include "BonusShield.generated.h"
 
+class APawnShield;
+
 UCLASS()
 class MYARCADE_API ABonusShield : public ABonus
 {
@@ -14,4 +16,9 @@ class MYARCADE_API ABonusShield : public ABonus
 protected:
 
 		virtual void BonusCollected_Implementation() override;
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shield")
+	TSubclassOf<APawnShield> ShieldClass;
 };
