@@ -15,10 +15,10 @@ class MYARCADE_API ABonusShield : public ABonus
 	
 protected:
 
-		virtual void BonusCollected_Implementation() override;
+	virtual void BonusCollected_Implementation() override;
 
 public:
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shield")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shielld")
 	TSubclassOf<APawnShield> ShieldClass;
 };

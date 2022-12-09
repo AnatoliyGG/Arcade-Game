@@ -21,4 +21,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Shield")
 	void ActivateShield(AMainPlayer* PlayerPawn);
+
+	UFUNCTION(BlueprintCallable, Category = "Shield")
+	void DeactivateShield();
 };

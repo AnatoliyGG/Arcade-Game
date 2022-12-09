@@ -2,6 +2,7 @@
 
 
 #include "PawnShield.h"
+#include "MyArcade/Pawns/MainPlayer.h"
 
 // Sets default values
 APawnShield::APawnShield()
@@ -10,6 +11,19 @@ APawnShield::APawnShield()
 }
 
 void APawnShield::ActivateShield(AMainPlayer* PlayerPawn)
+{
+	false;
+	FAttachmentTransformRules AttachRules = FAttachmentTransformRules(
+		EAttachmentRule::SnapToTarget, 
+		EAttachmentRule::SnapToTarget, 
+		EAttachmentRule::KeepWorld,
+		false
+	);
+
+	AttachToActor(PlayerPawn, AttachRules);
+}
+
+void APawnShield::DeactivateShield()
 {
 
 }

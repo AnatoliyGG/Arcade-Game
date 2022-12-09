@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Engine/world.h"
 #include "TimerManager.h"
+#include "GameFramework/Pawn.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
 // Sets default values
