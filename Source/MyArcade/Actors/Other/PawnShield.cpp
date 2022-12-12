@@ -3,16 +3,27 @@
 
 #include "PawnShield.h"
 #include "MyArcade/Pawns/MainPlayer.h"
+#include "Engine/world.h"
+#include "TimerManager.h"
 
 // Sets default values
 APawnShield::APawnShield()
+	:	
+	ShieldTime(5.f)
 {
 
 }
 
 void APawnShield::ActivateShield(AMainPlayer* PlayerPawn)
 {
-	false;
+	if (!PlayerPawn)
+	{
+		Destroy();
+		return;
+	}
+
+	ShieldForPawn = PlayerPawn;
+
 	FAttachmentTransformRules AttachRules = FAttachmentTransformRules(
 		EAttachmentRule::SnapToTarget, 
 		EAttachmentRule::SnapToTarget, 
@@ -21,10 +32,16 @@ void APawnShield::ActivateShield(AMainPlayer* PlayerPawn)
 	);
 
 	AttachToActor(PlayerPawn, AttachRules);
+
+	GetWorld()->GetTimerManager().SetTimer(ShieldTimer, this, &APawnShield::DeactivateShield, ShieldTime, false);
 }
 
 void APawnShield::DeactivateShield()
 {
+	if (!ShieldForPawn) return;
 
+	ShieldForPawn;
+
+	Destroy();
 }
 

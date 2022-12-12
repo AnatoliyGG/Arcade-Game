@@ -7,6 +7,7 @@
 #include "Engine/world.h"
 #include "TimerManager.h"
 #include "GameFramework/Pawn.h"
+#include "GameFramework/Actor.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
 // Sets default values
@@ -29,6 +30,7 @@ AMainPlayer::AMainPlayer()
 	PawnCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PawnCamera"));
 
 	ShootComponent = CreateDefaultSubobject<UShootComponent>(TEXT("ShootComponent"));
+
 }
 
 void AMainPlayer::PossessedBy(AController* NewController)
