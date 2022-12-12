@@ -9,7 +9,7 @@
 // Sets default values
 APawnShield::APawnShield()
 	:	
-	ShieldTime(5.f)
+	ShieldTime(3.f)
 {
 
 }

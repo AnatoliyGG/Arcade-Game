@@ -42,15 +42,15 @@ void AEnemyPawn::DestroyPawn()
 	if (GameMode) GameMode->AddPoints(DestroyPoints);
 
 	Destroy();
-}
+} 
 
 void AEnemyPawn::OnEnemyOverlap(AActor* OverlappedOtherActor, AActor* OtherActor)
 {
 	if (OtherActor != UGameplayStatics::GetPlayerPawn(this, 0)) return;
 
-	UGameplayStatics::ApplyDamage(OtherActor, 100.f, GetController(), this, UDamageType::StaticClass());
+	float AppliedDamage = UGameplayStatics::ApplyDamage(OtherActor, 100.f, GetController(), this, UDamageType::StaticClass());
 
-	DestroyPawn();
+	if (AppliedDamage > 0.f) DestroyPawn();
 }  
 
 // Called every frame
