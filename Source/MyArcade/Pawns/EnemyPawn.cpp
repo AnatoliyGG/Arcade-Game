@@ -6,6 +6,7 @@
 #include "GameFramework/DamageType.h"
 #include "Components/StaticMeshComponent.h"
 #include "MyArcade/MyArcadeGameModeBase.h"
+#include "Engine/world.h"
 
 // Sets default values
 AEnemyPawn::AEnemyPawn()
@@ -31,18 +32,25 @@ void AEnemyPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-	HealthCompoonent->OnHealthEnded.AddDynamic(this, &AEnemyPawn::DestroyPawn);
+	HealthCompoonent->OnHealthEnded.AddDynamic(this, &AEnemyPawn::KillPawn);
 	
 	OnActorBeginOverlap.AddDynamic(this, &AEnemyPawn::OnEnemyOverlap);
 }
 
-void AEnemyPawn::DestroyPawn()   
+void AEnemyPawn::KillPawn()   
 {
 	AMyArcadeGameModeBase* GameMode = Cast<AMyArcadeGameModeBase>(UGameplayStatics::GetGameMode(this));
 	if (GameMode) GameMode->AddPoints(DestroyPoints);
 
-	Destroy();
+	SpawnBonuses();
+
+	DestroyPawn();
 } 
+
+void AEnemyPawn::DestroyPawn()
+{
+	Destroy();
+}
 
 void AEnemyPawn::OnEnemyOverlap(AActor* OverlappedOtherActor, AActor* OtherActor)
 {
@@ -53,6 +61,23 @@ void AEnemyPawn::OnEnemyOverlap(AActor* OverlappedOtherActor, AActor* OtherActor
 	if (AppliedDamage > 0.f) DestroyPawn();
 }  
 
+void AEnemyPawn::SpawnBonuses()
+{
+	FRandomStream Random;
+
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	
+
+	for (FBonusChance Bonus : PossibleBonuses)
+	{
+		if (Random.RandRange(0.f, 100.f) < Bonus.Chance)
+		{
+			GetWorld()->SpawnActor<ABonus>(Bonus.BonusClass, GetActorLocation(), FRotator(0.f), SpawnParameters);
+		}
+	}
+}
+
 // Called every frame
 void AEnemyPawn::Tick(float DeltaTime)
 {
@@ -61,10 +86,3 @@ void AEnemyPawn::Tick(float DeltaTime)
 	float WordlMoveOffset = 300.f * DeltaTime;
 	AddActorLocalOffset(FVector(WordlMoveOffset, 0.f, 0.f));
 }
-
-// Called to bind functionality to input
-void AEnemyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
-
