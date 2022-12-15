@@ -6,9 +6,20 @@
 #include "GameFramework/GameModeBase.h"
 #include "Components/EnemySpawnController.h"
 #include "Components/GameHealthComponent.h"
+#include "Components/ShootComponent.h"
 #include "MyArcadeGameModeBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameOverEvent);
+
+USTRUCT(BLueprintType)
+struct  FShootInfoLevel
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shooting")
+	TArray<FShootInfo> ShootInfos;
+};
 
 UCLASS()
 class MYARCADE_API AMyArcadeGameModeBase : public AGameModeBase
@@ -58,4 +69,7 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Game")
 	int GamePoints;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Shooting")
+	TArray<FShootInfoLevel> ShootInfoLevels;
 };
