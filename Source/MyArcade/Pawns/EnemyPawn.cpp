@@ -64,6 +64,7 @@ void AEnemyPawn::OnEnemyOverlap(AActor* OverlappedOtherActor, AActor* OtherActor
 void AEnemyPawn::SpawnBonuses()
 {
 	FRandomStream Random;
+	Random.GenerateNewSeed();
 
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -71,7 +72,8 @@ void AEnemyPawn::SpawnBonuses()
 
 	for (FBonusChance Bonus : PossibleBonuses)
 	{
-		if (Random.RandRange(0.f, 100.f) < Bonus.Chance)
+		float RandChance = Random.RandRange(0.f, 100.f);
+		if (RandChance < Bonus.Chance)
 		{
 			GetWorld()->SpawnActor<ABonus>(Bonus.BonusClass, GetActorLocation(), FRotator(0.f), SpawnParameters);
 		}
