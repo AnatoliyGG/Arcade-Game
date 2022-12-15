@@ -8,7 +8,8 @@
 
 AMyArcadeGameModeBase::AMyArcadeGameModeBase()
 	:
-	PlayerRecoverTime(3)
+	PlayerRecoverTime(3),
+	CurrentShootLevel(-1)
 {
 	EnemySpawnController = CreateDefaultSubobject<UEnemySpawnController>(TEXT("EnemySpawnController"));
 	HealtsComponent = CreateDefaultSubobject<UGameHealthComponent>(TEXT("HealtsComponent"));
@@ -21,6 +22,9 @@ void AMyArcadeGameModeBase::BeginPlay()
 	HealtsComponent->HealtsEnded.AddDynamic(this, &AMyArcadeGameModeBase::EndGame);
 
 	PlayerPawn = Cast<AMainPlayer>(UGameplayStatics::GetPlayerPawn(this, 0));
+	if (!PlayerPawn) return;
+
+	ChangeShootLevel(true);
 
 	PlayerPawn->PawnDamaged.AddDynamic(this, &AMyArcadeGameModeBase::ExplodePawn);
 }
@@ -58,4 +62,21 @@ void AMyArcadeGameModeBase::EndGame()
 void AMyArcadeGameModeBase::AddPoints(int Points)
 {
 	GamePoints += Points;
+}
+
+bool AMyArcadeGameModeBase::ChangeShootLevel(bool Up)
+{
+	PlayerPawn = Cast<AMainPlayer>(UGameplayStatics::GetPlayerPawn(this, 0));
+	if (!PlayerPawn) return false;
+
+	int NewLevel = CurrentShootLevel + FMath::Clamp((Up ? 1 : -1), 0, ShootInfoLevels.Num() - 1);
+
+	if (NewLevel == CurrentShootLevel) return false;
+
+	CurrentShootLevel = NewLevel;
+
+	PlayerPawn->ShootComponent->ShootInfos = ShootInfoLevels[CurrentShootLevel].ShootInfos;
+	PlayerPawn->ShootComponent->ShootDelay = ShootInfoLevels[CurrentShootLevel].ShootPeriod;
+
+	return true;
 }

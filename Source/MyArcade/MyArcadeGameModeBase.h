@@ -17,8 +17,12 @@ struct  FShootInfoLevel
 	GENERATED_BODY()
 
 public:
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shooting")
 	TArray<FShootInfo> ShootInfos;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shooting")
+	float ShootPeriod;
 };
 
 UCLASS()
@@ -60,6 +64,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Game")
 	void AddPoints(int Points);
+
+	UFUNCTION(BlueprintCallable, Category = "Game")
+	bool ChangeShootLevel(bool Up);
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Game")
 	float PlayerRecoverTime;
@@ -70,6 +77,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Game")
 	int GamePoints;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Shooting")
+	UPROPERTY(EditDefaultsOnly, Category = "Shooting")
 	TArray<FShootInfoLevel> ShootInfoLevels;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Shooting")
+	int CurrentShootLevel;
 };

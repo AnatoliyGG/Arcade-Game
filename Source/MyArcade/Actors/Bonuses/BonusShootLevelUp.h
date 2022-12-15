@@ -6,12 +6,14 @@
 #include "Bonus.h"
 #include "BonusShootLevelUp.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class MYARCADE_API ABonusShootLevelUp : public ABonus
 {
 	GENERATED_BODY()
 	
+protected:
+
+	virtual void BonusCollected_Implementation() override;
+
+
 };
