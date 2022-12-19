@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/DamageType.h"
+#include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values
@@ -17,20 +18,31 @@ AShootProjectitle::AShootProjectitle()
 
 	Collision = CreateDefaultSubobject<USphereComponent>(TEXT("ProjectitleCollision"));
 	RootComponent = Collision;
+	Collision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Collision, NAME_None);
 	Mesh->SetCollisionProfileName("NoCollision");
+
+	//if (GetOwner())
+	//{
+	//	UE_LOG(LogTemp, Log, TEXT("Proj Owner"));
+	//	Collision->IgnoreActorWhenMoving(GetOwner(), true);
+	//}
 }
 
 // Called when the game starts or when spawned
 void AShootProjectitle::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	if (GetOwner())
 	{
-		Collision->IgnoreActorWhenMoving(GetOwner(), true);
+		UBoxComponent* OwnerCollision = GetOwner()->FindComponentByClass<UBoxComponent>();
+		Collision->IgnoreComponentWhenMoving(OwnerCollision, true);
+		OwnerCollision->IgnoreComponentWhenMoving(Collision, true);
+
+		Collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	}
 
 	Collision->OnComponentBeginOverlap.AddDynamic(this, &AShootProjectitle::OnProjectitleOverlap);

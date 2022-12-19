@@ -35,6 +35,8 @@ void AMyArcadeGameModeBase::ExplodePawn_Implementation()
 
 	HealtsComponent->ChangeHealths(-1);
 
+	ChangeShootLevel(false);
+
 	if (!IsGameOver)
 	GetWorld()->GetTimerManager().SetTimer(RecoverTimer, this, &AMyArcadeGameModeBase::RecoverPawn, PlayerRecoverTime, false);
 }
@@ -67,6 +69,7 @@ void AMyArcadeGameModeBase::AddPoints(int Points)
 bool AMyArcadeGameModeBase::ChangeShootLevel(bool Up)
 {
 	PlayerPawn = Cast<AMainPlayer>(UGameplayStatics::GetPlayerPawn(this, 0));
+
 	if (!PlayerPawn) return false;
 
 	int NewLevel =  FMath::Clamp(CurrentShootLevel + (Up ? 1 : -1), 0, ShootInfoLevels.Num() - 1);
