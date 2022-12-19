@@ -69,7 +69,7 @@ bool AMyArcadeGameModeBase::ChangeShootLevel(bool Up)
 	PlayerPawn = Cast<AMainPlayer>(UGameplayStatics::GetPlayerPawn(this, 0));
 	if (!PlayerPawn) return false;
 
-	int NewLevel = CurrentShootLevel + FMath::Clamp((Up ? 1 : -1), 0, ShootInfoLevels.Num() - 1);
+	int NewLevel =  FMath::Clamp(CurrentShootLevel + (Up ? 1 : -1), 0, ShootInfoLevels.Num() - 1);
 
 	if (NewLevel == CurrentShootLevel) return false;
 

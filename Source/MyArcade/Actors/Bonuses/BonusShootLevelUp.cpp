@@ -8,6 +8,7 @@
 void ABonusShootLevelUp::BonusCollected_Implementation()
 {
 	AMyArcadeGameModeBase* GameMode = Cast<AMyArcadeGameModeBase>(UGameplayStatics::GetGameMode(this));
+
 	if (GameMode) return;
 
 	GameMode->ChangeShootLevel(true);
