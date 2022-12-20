@@ -23,12 +23,6 @@ AShootProjectitle::AShootProjectitle()
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Collision, NAME_None);
 	Mesh->SetCollisionProfileName("NoCollision");
-
-	//if (GetOwner())
-	//{
-	//	UE_LOG(LogTemp, Log, TEXT("Proj Owner"));
-	//	Collision->IgnoreActorWhenMoving(GetOwner(), true);
-	//}
 }
 
 // Called when the game starts or when spawned

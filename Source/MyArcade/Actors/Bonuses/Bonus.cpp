@@ -40,6 +40,6 @@ void ABonus::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	float WordlMoveOffset = -200.f * DeltaTime;
+	float WordlMoveOffset = -170.f * DeltaTime;
 	AddActorLocalOffset(FVector(WordlMoveOffset, 0.f, 0.f));
 }
