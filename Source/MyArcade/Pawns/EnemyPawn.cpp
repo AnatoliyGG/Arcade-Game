@@ -52,7 +52,7 @@ void AEnemyPawn::DestroyPawn()
 	Destroy();
 }
 
-void AEnemyPawn::OnEnemyOverlap(AActor* OverlappedOtherActor, AActor* OtherActor)
+void AEnemyPawn::OnEnemyOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if (OtherActor != UGameplayStatics::GetPlayerPawn(this, 0)) return;
 
@@ -85,6 +85,6 @@ void AEnemyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	float WordlMoveOffset = 200.f * DeltaTime;
+	float WordlMoveOffset = -400.f * DeltaTime;
 	AddActorLocalOffset(FVector(WordlMoveOffset, 0.f, 0.f));
 }

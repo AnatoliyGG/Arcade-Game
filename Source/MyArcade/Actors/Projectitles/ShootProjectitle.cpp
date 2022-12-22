@@ -50,7 +50,9 @@ void AShootProjectitle::OnProjectitleOverlap(UPrimitiveComponent* OpelappedComp,
 	APawn* PawnOwner = Cast<APawn>(GetOwner());
 	if (!PawnOwner) return;
 	AController* instigator = PawnOwner->GetController();
+
 	UGameplayStatics::ApplyDamage(OtherActor, Damage, instigator, this, UDamageType::StaticClass());
+
 	Destroy();
 }
 

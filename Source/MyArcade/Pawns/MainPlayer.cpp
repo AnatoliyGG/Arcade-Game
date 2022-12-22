@@ -30,7 +30,6 @@ AMainPlayer::AMainPlayer()
 	PawnCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PawnCamera"));
 
 	ShootComponent = CreateDefaultSubobject<UShootComponent>(TEXT("ShootComponent"));
-
 }
 
 void AMainPlayer::PossessedBy(AController* NewController)

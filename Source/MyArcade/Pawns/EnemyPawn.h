@@ -44,7 +44,7 @@ protected:
 	void KillPawn();
 
 	UFUNCTION()
-	void OnEnemyOverlap(AActor* OverlappedOtherActor, AActor* OtherActor);
+	void OnEnemyOverlap(AActor* OverlappedActor, AActor* OtherActor);
 
 	void SpawnBonuses();
 
