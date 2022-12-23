@@ -37,6 +37,7 @@ class MYARCADE_API AMyArcadeGameModeBase : public AGameModeBase
 protected:
 
 	FTimerHandle RecoverTimer;
+	FTimerHandle IncreaseDifficutlyTimer;
 
 	UFUNCTION(BlueprintNativeEvent, Category = "Game")
 	void ExplodePawn();
@@ -61,6 +62,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Game")
 	void EndGame();
+	
+	UFUNCTION(BlueprintCallable, Category = "Game")
+	void IncreaseDifficulty();
 
 	UFUNCTION(BlueprintCallable, Category = "Game")
 	void AddPoints(int Points);
@@ -70,6 +74,9 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Game")
 	float PlayerRecoverTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game")
+	float IncreaseDifficutlyPeriod;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Game")
 	class AMainPlayer* PlayerPawn;

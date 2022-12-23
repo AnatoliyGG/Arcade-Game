@@ -85,6 +85,6 @@ void AEnemyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	float WordlMoveOffset = -400.f * DeltaTime;
+	float WordlMoveOffset = -300.f * DeltaTime;
 	AddActorLocalOffset(FVector(WordlMoveOffset, 0.f, 0.f));
 }

@@ -30,9 +30,9 @@ void UEnemySpawnController::StartSpawnStage()
 
 	SpawnEnemy();
 
-	float ChangeStageTime = Random.RandRange(StageMinDelay, StageMaxDelay);
+	float ChangeStageTime = Random.RandRange(StageMinDelay, StageMaxDelay) * ChangeStageTimeMultiplier;
 	// 1-таймер, 2-где вызывается функция, 3-какая функция, 4-периодичность,, 5-цикличность таймера
-	GetWorld()->GetTimerManager().SetTimer(ChangeStageTimer, this, &UEnemySpawnController::StartSpawnStage, Random.RandRange(StageMinDelay, StageMaxDelay), false);
+	GetWorld()->GetTimerManager().SetTimer(ChangeStageTimer, this, &UEnemySpawnController::StartSpawnStage, ChangeStageTime, false);
 }
 
 void UEnemySpawnController::SpawnEnemy() 

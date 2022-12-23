@@ -9,9 +9,11 @@
 AMyArcadeGameModeBase::AMyArcadeGameModeBase()
 	:
 	PlayerRecoverTime(3),
-	CurrentShootLevel(-1)
+	CurrentShootLevel(-1),
+	IncreaseDifficutlyPeriod(4.f)
 {
 	EnemySpawnController = CreateDefaultSubobject<UEnemySpawnController>(TEXT("EnemySpawnController"));
+
 	HealtsComponent = CreateDefaultSubobject<UGameHealthComponent>(TEXT("HealtsComponent"));
 }
 
@@ -27,6 +29,8 @@ void AMyArcadeGameModeBase::BeginPlay()
 	ChangeShootLevel(true);
 
 	PlayerPawn->PawnDamaged.AddDynamic(this, &AMyArcadeGameModeBase::ExplodePawn);
+
+	GetWorld()->GetTimerManager().SetTimer(IncreaseDifficutlyTimer, this, &AMyArcadeGameModeBase::IncreaseDifficulty, IncreaseDifficutlyPeriod, true);
 }
 
 void AMyArcadeGameModeBase::ExplodePawn_Implementation()
@@ -59,6 +63,12 @@ void AMyArcadeGameModeBase::EndGame()
 	UE_LOG(LogTemp, Log, TEXT("Game Over"));
 
 	SetPause(UGameplayStatics::GetPlayerController(this, 0), false);
+}
+
+void AMyArcadeGameModeBase::IncreaseDifficulty()
+{
+	EnemySpawnController->ChangeStageTimeMultiplier = FMath::Max(EnemySpawnController->ChangeStageTimeMultiplier * 0.95, 0.4);
+	UE_LOG(LogTemp, Log, TEXT("Difficutly increased: %f"), EnemySpawnController->ChangeStageTimeMultiplier);
 }
 
 void AMyArcadeGameModeBase::AddPoints(int Points)
