@@ -49,6 +49,10 @@ void AEnemyPawn::KillPawn()
 
 void AEnemyPawn::DestroyPawn()
 {
+
+	if (DestroyParticle)
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DestroyParticle, GetActorTransform(), true);
+
 	Destroy();
 }
 

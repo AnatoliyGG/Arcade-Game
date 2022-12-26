@@ -84,4 +84,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pawn")
 	UMaterialInterface* RecoverMaterial;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
+		UParticleSystem* DestroyParticle;
 };

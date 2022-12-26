@@ -5,6 +5,7 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/world.h"
+#include "Kismet/GameplayStatics.h"
 #include "TimerManager.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/Actor.h"
@@ -49,6 +50,9 @@ void AMainPlayer::ExplodePawn_Implementation()
 	ShootComponent->StopShooting();
 
 	PawnMesh->SetMaterial(0, RecoverMaterial);
+
+	if(DestroyParticle) 
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DestroyParticle, GetActorTransform(), true);
 }
 
 void AMainPlayer::RecoverPawn_Implementation()
