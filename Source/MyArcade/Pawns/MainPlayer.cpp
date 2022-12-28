@@ -2,6 +2,7 @@
 
 #include "MainPlayer.h"
 #include "Components/StaticMeshComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/world.h"
@@ -53,6 +54,11 @@ void AMainPlayer::ExplodePawn_Implementation()
 
 	if(DestroyParticle) 
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DestroyParticle, GetActorTransform(), true);
+
+	for (UActorComponent* Component : GetComponentsByClass(UParticleSystemComponent::StaticClass()))
+	{
+		Component->Deactivate();
+	}
 }
 
 void AMainPlayer::RecoverPawn_Implementation()
