@@ -68,6 +68,11 @@ void AMainPlayer::RecoverPawn_Implementation()
 	ShootComponent->StartShooting();
 
 	PawnMesh->SetMaterial(0, PawnMaterial);
+
+	for (UActorComponent* Component : GetComponentsByClass(UParticleSystemComponent::StaticClass()))
+	{
+		Component->Activate(true);
+	}
 }
 
 // Called when the game starts or when spawned
