@@ -13,9 +13,13 @@ void ABonusShield::BonusCollected_Implementation()
 	AMainPlayer* PlayerPawn = Cast<AMainPlayer>(Pawn);
 	if (!PlayerPawn) return;
 
-	APawnShield* Shield = GetWorld()->SpawnActor<APawnShield>(ShieldClass);
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = PlayerPawn; 
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	Shield->ActivateShield(PlayerPawn);
+	APawnShield* Shield = GetWorld()->SpawnActor<APawnShield>(ShieldClass, SpawnParams);
+
+	if (Shield) Shield->ActivateShield(PlayerPawn);
 
 	Super::BonusCollected_Implementation();
 }
