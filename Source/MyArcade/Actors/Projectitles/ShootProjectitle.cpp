@@ -7,6 +7,7 @@
 #include "GameFramework/DamageType.h"
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
 AShootProjectitle::AShootProjectitle()
@@ -23,6 +24,9 @@ AShootProjectitle::AShootProjectitle()
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Collision, NAME_None);
 	Mesh->SetCollisionProfileName("NoCollision");
+
+	Particle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle"));
+	Particle->SetupAttachment(Collision);
 }
 
 // Called when the game starts or when spawned
