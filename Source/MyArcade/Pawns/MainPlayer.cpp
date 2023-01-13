@@ -11,12 +11,14 @@
 #include "GameFramework/Pawn.h"
 #include "GameFramework/Actor.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "GameFramework/PawnMovementComponent.h"
 
 // Sets default values
 AMainPlayer::AMainPlayer()
 	:
-	TouchMoveSensivity(1.f),
-	MoveLimit(FVector2D(800.f, 700.f))
+//	TouchMoveSensivity(1.f),
+	MoveLimit(FVector2D(800.f, 700.f)),
+	MovementSpeed(500.f)
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -42,7 +44,7 @@ void AMainPlayer::PossessedBy(AController* NewController)
 bool AMainPlayer::CanBeDamaged_Implementation()
 {
 	return true;
-}
+}	
 
 void AMainPlayer::ExplodePawn_Implementation()
 {
@@ -98,6 +100,12 @@ float AMainPlayer::TakeDamage(float Damage, const FDamageEvent& DamageEvent, ACo
 void AMainPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (!MovementDirection.IsZero())
+	{
+		const FVector NewLocation = GetActorLocation() + (MovementDirection * DeltaTime * MovementSpeed);
+		SetActorLocation(NewLocation);
+	}
 }
 
 // Called to bind functionality to input
@@ -105,28 +113,41 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	
-	InputComponent->BindTouch(IE_Pressed, this, &AMainPlayer::OnTouchPress);
-//	InputComponent->BindTouch(IE_Released, this, &AMainPlayer::OnTouchReleased);
+	//InputComponent->BindTouch(IE_Pressed, this, &AMainPlayer::OnTouchPress);
+	//InputComponent->BindTouch(IE_Repeat, this, &AMainPlayer::OnTouchMove);
 
-	InputComponent->BindTouch(IE_Repeat, this, &AMainPlayer::OnTouchMove);
+	InputComponent->BindAxis("MoveForward", this, &AMainPlayer::MoveForward);
+	InputComponent->BindAxis("MoveRight", this, &AMainPlayer::MoveRight);
 }
 
-void AMainPlayer::OnTouchMove(ETouchIndex::Type FingerIndex, FVector TouchCoor)
+//void AMainPlayer::OnTouchMove(ETouchIndex::Type FingerIndex, FVector TouchCoor)
+//{
+//	FVector2D TouchDeltaMove = FVector2D(TouchLocation.X - TouchCoor.X, TouchLocation.Y - TouchCoor.Y);
+//
+//	TouchDeltaMove *= TouchMoveSensivity;
+//
+//	FVector NewLocation = GetActorLocation();
+//	NewLocation.X = FMath::Clamp(NewLocation.X + TouchDeltaMove.Y, -MoveLimit.Y, MoveLimit.Y);
+//	NewLocation.Y = FMath::Clamp(NewLocation.Y + TouchDeltaMove.X*-1.f, -MoveLimit.X, MoveLimit.X);
+//
+//	SetActorLocation(NewLocation);
+//
+//	TouchLocation = FVector2D(TouchCoor.X, TouchCoor.Y);
+//}
+//
+//void AMainPlayer::OnTouchPress(ETouchIndex::Type FingerIndex, FVector TouchCoor)
+//{
+//	TouchLocation = FVector2D(TouchCoor.X, TouchCoor.Y);
+//}
+
+void AMainPlayer::MoveForward(float Value)
 {
-	FVector2D TouchDeltaMove = FVector2D(TouchLocation.X - TouchCoor.X, TouchLocation.Y - TouchCoor.Y);
-
-	TouchDeltaMove *= TouchMoveSensivity;
-
-	FVector NewLocation = GetActorLocation();
-	NewLocation.X = FMath::Clamp(NewLocation.X + TouchDeltaMove.Y, -MoveLimit.Y, MoveLimit.Y);
-	NewLocation.Y = FMath::Clamp(NewLocation.Y + TouchDeltaMove.X*-1.f, -MoveLimit.X, MoveLimit.X);
-
-	SetActorLocation(NewLocation);
-
-	TouchLocation = FVector2D(TouchCoor.X, TouchCoor.Y);
+	MovementDirection.X = FMath::Clamp(Value, -1.0f, 1.0f);
+	//AddMovementInput(GetActorForwardVector(), Axis);
 }
 
-void AMainPlayer::OnTouchPress(ETouchIndex::Type FingerIndex, FVector TouchCoor)
+void AMainPlayer::MoveRight(float Value)
 {
-	TouchLocation = FVector2D(TouchCoor.X, TouchCoor.Y);
+	MovementDirection.Y = FMath::Clamp(Value, -1.0f, 1.0f);
+	//AddMovementInput(GetActorRightVector(), Axis);
 }

@@ -67,7 +67,7 @@ void AMyArcadeGameModeBase::EndGame()
 
 void AMyArcadeGameModeBase::IncreaseDifficulty()
 {
-	EnemySpawnController->ChangeStageTimeMultiplier = FMath::Max(EnemySpawnController->ChangeStageTimeMultiplier * 0.95, 0.4);
+	EnemySpawnController->ChangeStageTimeMultiplier = FMath::Max(EnemySpawnController->ChangeStageTimeMultiplier * 0.95, 0.1);
 	UE_LOG(LogTemp, Log, TEXT("Difficutly increased: %f"), EnemySpawnController->ChangeStageTimeMultiplier);
 }
 

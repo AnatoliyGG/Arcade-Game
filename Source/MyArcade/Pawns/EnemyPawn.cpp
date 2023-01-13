@@ -73,7 +73,6 @@ void AEnemyPawn::SpawnBonuses()
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	
-
 	for (FBonusChance Bonus : PossibleBonuses)
 	{
 		float RandChance = Random.RandRange(0.f, 100.f);
