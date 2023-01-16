@@ -8,6 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "MyArcade/Components/ShootComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
+#include "GameFramework/FloatingPawnMovement.h"
 #include "MainPlayer.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPawnDamagedEvent);
@@ -44,8 +45,6 @@ private:
 
 	UMaterialInterface* PawnMaterial;
 
-	FVector MovementDirection;
-
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 
@@ -67,9 +66,6 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Healths")
 	void RecoverPawn();
 	void RecoverPawn_Implementation();
-
-	UPROPERTY(EditAnywhere, Category = "Movement");
-	float MovementSpeed;
 
 	//void RevieveAneDamage(float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
 
@@ -96,4 +92,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
 	UParticleSystem* DestroyParticle;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement")
+	UFloatingPawnMovement* MovementComponent;
 };

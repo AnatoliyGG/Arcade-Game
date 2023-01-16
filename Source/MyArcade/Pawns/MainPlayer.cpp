@@ -17,8 +17,7 @@
 AMainPlayer::AMainPlayer()
 	:
 //	TouchMoveSensivity(1.f),
-	MoveLimit(FVector2D(800.f, 700.f)),
-	MovementSpeed(500.f)
+	MoveLimit(FVector2D(800.f, 700.f))
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -34,6 +33,8 @@ AMainPlayer::AMainPlayer()
 	PawnCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PawnCamera"));
 
 	ShootComponent = CreateDefaultSubobject<UShootComponent>(TEXT("ShootComponent"));
+
+	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("MovementComponent"));
 }
 
 void AMainPlayer::PossessedBy(AController* NewController)
@@ -100,12 +101,6 @@ float AMainPlayer::TakeDamage(float Damage, const FDamageEvent& DamageEvent, ACo
 void AMainPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if (!MovementDirection.IsZero())
-	{
-		const FVector NewLocation = GetActorLocation() + (MovementDirection * DeltaTime * MovementSpeed);
-		SetActorLocation(NewLocation);
-	}
 }
 
 // Called to bind functionality to input
@@ -142,12 +137,10 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void AMainPlayer::MoveForward(float Value)
 {
-	MovementDirection.X = FMath::Clamp(Value, -1.0f, 1.0f);
-	//AddMovementInput(GetActorForwardVector(), Axis);
+	AddMovementInput(GetActorForwardVector(), Value);
 }
 
 void AMainPlayer::MoveRight(float Value)
 {
-	MovementDirection.Y = FMath::Clamp(Value, -1.0f, 1.0f);
-	//AddMovementInput(GetActorRightVector(), Axis);
+	AddMovementInput(GetActorRightVector(), Value);
 }
